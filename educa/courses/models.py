@@ -50,8 +50,8 @@ class Module(models.Model):
 
 
 class Content(models.Model):
-    modules = models.ForeignKey(Module,
-                                related_name='content',
+    module = models.ForeignKey(Module,
+                                related_name='contents',
                                 on_delete=models.CASCADE)
     content_type = models.ForeignKey(ContentType,
                                      on_delete=models.CASCADE,
