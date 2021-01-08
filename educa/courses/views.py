@@ -10,8 +10,24 @@ from .models import Course
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from braces.views import CsrfExemptMixin, JsonRequestResponseMixin
+
 
 # Create your views here.
+class ModuleOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
+    def post(self, request):
+        for id, order in request_json.items():
+            Module.objects.filter(id=id,
+                                  course__owner=request.user).update(order=order)
+            return self.render_json_response({'saved': 'OK'})
+
+class ContentOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
+    def post(self, request):
+        for id, order in self.request_json.items():
+            Content.objects.filter(id=id,
+                                   module__course__owner=request.user)\
+                    .update(order=order)
+            return self.render_json_response({'saved': 'OK'})
 
 class ManageCourseListView(ListView):
     model = Course
@@ -113,8 +129,8 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
         return self.render_to_response({'form': form,
                                         'object': self.obj})
     def post(self, request, module_id, model_name, id=None):
-        form = self.get_form(self.model, instance=self.obj,
-                            data=request.POST, files=request.FILES)
+        form = self.get_form(self.model,
+                            request.POST, request.FILES, instance=self.obj)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.owner = request.user
