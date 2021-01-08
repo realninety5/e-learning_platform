@@ -19,7 +19,7 @@ class ModuleOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
         for id, order in request_json.items():
             Module.objects.filter(id=id,
                                   course__owner=request.user).update(order=order)
-            return self.render_json_response({'saved': 'OK'})
+        return self.render_json_response({'saved': 'OK'})
 
 class ContentOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
     def post(self, request):
@@ -27,12 +27,13 @@ class ContentOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
             Content.objects.filter(id=id,
                                    module__course__owner=request.user)\
                     .update(order=order)
-            return self.render_json_response({'saved': 'OK'})
+        return self.render_json_response({'saved': 'OK'})
 
 class ManageCourseListView(ListView):
     model = Course
     template_name = 'courses/manage/course/list.html'
 
+    # Get requested obiects from the database
     def get_queryset(self):
         qs = super().get_queryset()
         return qs.filter(owner=self.request.user)
