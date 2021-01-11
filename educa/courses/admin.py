@@ -7,10 +7,11 @@ from .models import Course, Module, Subject
 class SubjectAdmin(admin.ModelAdmin):
     list_display = ['title', 'slug']
     prepopulated_fields = {'slug': ('title',)}
-
+# Creates an inline of Module with Course, added below
 class ModuleInline(admin.StackedInline):
     model = Module
 
+# Course administration interface
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     list_display = ['title', 'subject', 'created']
