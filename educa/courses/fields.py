@@ -1,5 +1,5 @@
 '''
-    A custom model that orders objects both when no other is specified and
+    A custom model that orders objects both when no order is specified and
     when it is. Objects also get order with respect to other fields.
 '''
 from django.db import models

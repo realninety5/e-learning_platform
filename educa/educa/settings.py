@@ -36,6 +36,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'courses.apps.CoursesConfig',
+    'select_rel.apps.SelectRelConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
